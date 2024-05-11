@@ -30,19 +30,19 @@ musicaFocoInput.addEventListener('change', () => {
 })
 
 focoBt.addEventListener('click', () => {
-    temporizadorEmSegundos = 1500;
+    temporizadorEmSegundos = 120;
     alterarContexto('foco');
     focoBt.classList.add('active');
 })
 
 curtoBt.addEventListener('click', () => {
-    temporizadorEmSegundos = 300;
+    temporizadorEmSegundos = 30;
     alterarContexto('descanso-curto');
     curtoBt.classList.add('active');
 })
 
 longoBt.addEventListener('click', () => {
-    temporizadorEmSegundos = 900;
+    temporizadorEmSegundos = 60;
     alterarContexto('descanso-longo');
     longoBt.classList.add('active');
 })
@@ -79,6 +79,11 @@ const contagemRegressiva = () => {
     if(temporizadorEmSegundos <= 0) {
         audioTempoFinalizado.play();
         alert('Tempo Finalizado!');
+        const focoAtivo = html.getAttribute('data-contexto') == 'foco';
+        if(focoAtivo) {
+            const evento = new CustomEvent('FocoFinalizado');
+            document.dispatchEvent(evento);
+        }
         zerar();
         return;
     }
